@@ -9,9 +9,13 @@ def searchVideo(url):
     print(v.thumbnail_url)
     u = requests.get(v.thumbnail_url)
     img = ImageTk.PhotoImage(Image.open(BytesIO(u.content)).resize((400, 320)))
+    Label(root, text=v.title, font=(fontName, 13)).place(x=30, y=380)
     Label(root, image=img).place(x=30,y=50)
-    Label(root, text=v.title, font=(fontName, 13)).place(x=30, y=380).get("1.0", "end-1c")
+    generateDLButtons(v)
 
+def generateDLButtons(v : yt):
+    videoStreams = v.streams.filter(adaptive=True)
+    print(videoStreams)
 
 root = Tk()
 root.geometry("720x480")
@@ -27,7 +31,6 @@ url.set("")
 Entry(root, textvariable=url, width=27, font=TupFont).place(x=300,y=5)
 Button(root, text="Search", font=(fontName, 16)
        , command=lambda : searchVideo(url.get())).place(x=620,y=5)
-
 
 
 root.mainloop()

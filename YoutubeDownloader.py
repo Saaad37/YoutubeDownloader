@@ -14,10 +14,14 @@ def searchVideo(url):
     Label(root, text=v.title, font=(fontName, 13)).place(x=30, y=380)
     Label(root, image=img).place(x=30,y=50)
 
+
 def generateDLButtons(v : yt):
-    videoStreams = v.streams.filter(adaptive=True).order_by("resolution").desc().all()
+    videoStreams = v.streams.filter(adaptive=True, file_extension='mp4').order_by("resolution").desc().all()
     audioStreams = v.streams.filter(only_audio=True)
-    print(videoStreams)
+    for i in range(3):
+        Button(root, text='Download ' + videoStreams[i].resolution, width=20, command=videoStreams[i].download).place(x=500, y=40*i + 120)
+        print(videoStreams[i])
+    # print(videoStreams)
 
 root = Tk()
 root.geometry("720x480")

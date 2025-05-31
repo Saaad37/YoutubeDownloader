@@ -5,6 +5,7 @@ from pytubefix import YouTube as yt
 from functools import cache
 from io import BytesIO
 
+
 def searchVideo(url):
     global img
     v = yt(url)
@@ -25,7 +26,11 @@ def generateDLButtons(v : yt):
     Button(root, text='Download ' + audioStream.abr, width=15,command=audioStream.download).place(x=500, y=280)        
 
 def OpenChangeDestination():
-    pass
+    r = Tk()
+    r.geometry("400x80")
+    Entry(r, textvariable=destination, font=(fontName, 20)).pack(fill=X)
+    Button(r, text='Apply', command=ChangeDestination, font=TupFont).pack(fill=X)
+    r.mainloop()
 
 @cache
 def ChangeDestination():
@@ -38,6 +43,9 @@ root.title("Youtube Downloader")
 fontName = "Roboto"
 fontSize = 16
 TupFont = (fontName, fontSize)
+
+destination = StringVar()
+
 
 url = StringVar()
 url.set("")

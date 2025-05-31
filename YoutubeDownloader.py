@@ -5,17 +5,20 @@ from pytubefix import YouTube as yt
 from io import BytesIO
 
 def searchVideo(url):
+    global img
     v = yt(url)
     print(v.thumbnail_url)
     u = requests.get(v.thumbnail_url)
     img = ImageTk.PhotoImage(Image.open(BytesIO(u.content)).resize((400, 320)))
+    generateDLButtons(v)
     Label(root, text=v.title, font=(fontName, 13)).place(x=30, y=380)
     Label(root, image=img).place(x=30,y=50)
-    generateDLButtons(v)
 
 def generateDLButtons(v : yt):
     videoStreams = v.streams.filter(adaptive=True)
+    audioStreams = v.streams.filter(only_audio=True)
     print(videoStreams)
+    print(audioStreams)
 
 root = Tk()
 root.geometry("720x480")

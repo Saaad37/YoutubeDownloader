@@ -17,11 +17,11 @@ def searchVideo(url):
 
 def generateDLButtons(v : yt):
     videoStreams = v.streams.filter(adaptive=True, file_extension='mp4').order_by("resolution").desc().all()
-    audioStreams = v.streams.filter(only_audio=True)
+    audioStream = v.streams.filter(only_audio=True).first()
     for i in range(3):
-        Button(root, text='Download ' + videoStreams[i].resolution, width=20, command=videoStreams[i].download).place(x=500, y=40*i + 120)
-        print(videoStreams[i])
-    # print(videoStreams)
+        Button(root, text='Download ' + videoStreams[i].resolution, width=15, command=videoStreams[i].download).place(x=500, y=40*i + 120)
+
+    Button(root, text='Download ' + audioStream.abr, width=15,command=audioStream.download).place(x=500, y=280)        
 
 root = Tk()
 root.geometry("720x480")

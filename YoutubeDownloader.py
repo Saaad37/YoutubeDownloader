@@ -2,6 +2,7 @@ from tkinter import *
 import requests
 from PIL import ImageTk, Image
 from pytubefix import YouTube as yt
+from functools import cache
 from io import BytesIO
 
 def searchVideo(url):
@@ -23,6 +24,13 @@ def generateDLButtons(v : yt):
 
     Button(root, text='Download ' + audioStream.abr, width=15,command=audioStream.download).place(x=500, y=280)        
 
+def OpenChangeDestination():
+    pass
+
+@cache
+def ChangeDestination():
+    pass
+
 root = Tk()
 root.geometry("720x480")
 root.title("Youtube Downloader")
@@ -38,5 +46,14 @@ Entry(root, textvariable=url, width=27, font=TupFont).place(x=300,y=5)
 Button(root, text="Search", font=(fontName, 16)
        , command=lambda : searchVideo(url.get())).place(x=620,y=5)
 
+menubar = Menu(root)
+config = Menu(menubar, tearoff=0)
 
+menubar.add_cascade(label='Config', menu=config, font=(fontName, 12))
+config.add_command(label='Change Destination', command=OpenChangeDestination)
+config.add_separator()
+config.add_command(label='Exit', command=root.destroy)
+
+
+root.config(menu=menubar)
 root.mainloop()

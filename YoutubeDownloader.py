@@ -15,10 +15,9 @@ def searchVideo(url):
     Label(root, image=img).place(x=30,y=50)
 
 def generateDLButtons(v : yt):
-    videoStreams = v.streams.filter(adaptive=True)
+    videoStreams = v.streams.filter(adaptive=True).order_by("resolution").desc().all()
     audioStreams = v.streams.filter(only_audio=True)
     print(videoStreams)
-    print(audioStreams)
 
 root = Tk()
 root.geometry("720x480")

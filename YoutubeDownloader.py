@@ -2,9 +2,19 @@ from tkinter import *
 import requests
 from PIL import ImageTk, Image
 from pytubefix import YouTube as yt
-from functools import cache
 from io import BytesIO
 
+
+def saveDestination(txt : str):
+    file = open("save.txt", "w+")
+    file.write(txt)
+    file.close()
+
+def getDestination():
+    file = open("save.txt", "r")
+    txt = file.read()
+    file.close()
+    return txt
 
 def searchVideo(url):
     global img
@@ -28,23 +38,24 @@ def generateDLButtons(v : yt):
 def OpenChangeDestination():
     r = Tk()
     r.geometry("400x80")
+    destination = StringVar()
+    destination.set(getDestination())
     Entry(r, textvariable=destination, font=(fontName, 20)).pack(fill=X)
-    Button(r, text='Apply', command=ChangeDestination, font=TupFont).pack(fill=X)
+    Button(r, text='Apply', command=lambda : ChangeDestination(r, destination.get()), font=TupFont).pack(fill=X)
     r.mainloop()
 
-@cache
-def ChangeDestination():
-    pass
+def ChangeDestination(r : Tk, dest : str):
+    saveDestination(dest)
+    r.destroy()
 
 root = Tk()
 root.geometry("720x480")
 root.title("Youtube Downloader")
 
+
 fontName = "Roboto"
 fontSize = 16
 TupFont = (fontName, fontSize)
-
-destination = StringVar()
 
 
 url = StringVar()
